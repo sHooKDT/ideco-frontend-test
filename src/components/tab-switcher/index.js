@@ -1,12 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { TAB_IDS as tabs} from '../../containers/app/index'
 
 import './index.css';
 
 const Tab = (props) => {
     return (
-        <li className="tab-li"><Link className="tab-link" to={ props.tabid }>{ props.tabname }</Link></li>
+        <li className="tab-li"><NavLink activeClassName="active" className="tab-link" to={ props.tabid }>{ props.tabname }</NavLink></li>
     )
 };
 

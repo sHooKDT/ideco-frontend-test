@@ -18,7 +18,7 @@
     text-decoration: none;
 }
 
-.tab-link:active {
+.active {
     background-color: #4DD0E1;
 }
 
@@ -32,5 +32,4 @@
     display: block;
     text-align: center;
     padding: 1em;
-
 }

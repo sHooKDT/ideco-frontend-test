@@ -44,6 +44,6 @@ tr:hover {
 }
 
 .add-flight-btn:hover {
-    transition: all linear 0.2s;
-    background-color: #01579B;
+    transition: all ease 0.2s;
+    background-color: #00838F;
 }
