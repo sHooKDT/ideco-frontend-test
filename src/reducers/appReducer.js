@@ -2,7 +2,10 @@ const initialState = {
     "editEnabled": false,
     "departures": [],
     "arrivals": [],
-    "filters": {},
+    "filters": {
+        "from_place": "",
+        "to_place": ""
+    },
     "editNow": false,
     "editFlight": {},
     "editData": {}

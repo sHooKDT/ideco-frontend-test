@@ -14,7 +14,6 @@ class FlightEditPopup extends React.Component {
         super();
         this.handleEditEnd = this.handleEditEnd.bind(this);
     }
-
     handleEditEnd(formdata) {
         editFlight(this.props.editFlight.direction, this.props.editFlight.index, formdata);
         this.props.appActions.endEdit();
@@ -25,9 +24,14 @@ class FlightEditPopup extends React.Component {
     render() {
         const { editData, editNow } = this.props;
         return (
-            <div className="edit-wrapper">
+            <div>
+                {
+                    console.log(this.props)
+                }
                 { editNow &&
-                    <FlightEditForm onSubmit={this.handleEditEnd} initialValues={editData}/>
+                    <div className="edit-wrapper">
+                        <FlightEditForm onSubmit={this.handleEditEnd} initialValues={editData}/>
+                    </div>
                 }
             </div>
         )

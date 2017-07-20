@@ -58,20 +58,22 @@ class Dashboard extends React.Component {
         let ind = addFlight(this.props.direction);
         this.props.appActions.startEdit(this.props.direction, ind);
     }
+    applyFilters(flights, filters) {
+        if (filters) {
+            return flights.filter(flight => {
+                return flight.from_place.startsWith((filters.from_place || "")) &&
+                    flight.to_place.startsWith((filters.to_place || ""))
+            })
+        }
+        return flights;
+    }
     render() {
         const { arrivals, departures, filters, editEnabled} = this.props;
         const { makeEditHandlers } = this;
 
         let flights = this.props.direction === 'arrivals' ? arrivals : departures;
 
-        let filtered_flights;
-        if (filters) {
-            filtered_flights = flights.filter(flight => {
-                if (filters.from_place) return filters.from_place === flight.from_place;
-                return true;
-            })
-        }
-        else filtered_flights = flights;
+        let filtered_flights = this.applyFilters(flights, filters);
 
         let flights_template = filtered_flights.map(function (item, index) {
             return (
@@ -81,6 +83,10 @@ class Dashboard extends React.Component {
 
         return (
             <div>
+                {
+                    editEnabled &&
+                    <input className="add-flight-btn" type="button" onClick={ this.addFlight } />
+                }
                 <table className="dashboard-table">
                     <thead className="dashboard-head">
                     <tr>
@@ -103,11 +109,6 @@ class Dashboard extends React.Component {
                 </table>
                 <p>Всего рейсов: { flights.length }</p>
                 <p>Подходящих рейсов: { filtered_flights.length }</p>
-                <br />
-                {
-                    editEnabled &&
-                    <input type="button" onClick={ this.addFlight } value="Добавить рейс" />
-                }
                 <FilterOptions onSubmit={ this.props.appActions.setFilters } initialValues={ filters } />
             </div>
         );

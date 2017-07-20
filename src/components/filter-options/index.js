@@ -1,14 +1,17 @@
 import React from 'react';
 import { reduxForm } from 'redux-form';
+import './index.css';
 
 class FilterOptions extends React.Component {
     render() {
-        const { fields: {from_place, to_place}, handleSubmit } = this.props;
+        const { fields: {from_place, to_place}, handleSubmit, resetForm } = this.props;
         return (
-            <form onSubmit={ handleSubmit }>
+            <form className="filters-form" onSubmit={ handleSubmit }>
+                <label>Фильтр: </label>
                 <input type="text" placeholder="город отправления" {...from_place} />
                 <input type="text" placeholder="город назначения" {...to_place} />
                 <button type="submit">Отфильтровать</button>
+                <button type="button" onClick={ resetForm }>Сбросить</button>
             </form>
         );
     };

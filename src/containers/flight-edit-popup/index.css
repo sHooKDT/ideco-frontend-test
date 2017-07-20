@@ -1,7 +1,40 @@
 .edit-wrapper {
-
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: hsla(0, 0%, 100%, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .edit-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    padding: 20px 0;
+    border: 1px solid gray;
+    border-radius: 20px;
+    background: hsla(0, 0%, 100%, 1);
+}
 
+.edit-form > input {
+    width: 80%;
+    height: 20px;
+    margin: 10px;
+    border-width: 0 0 3px 0;
+}
+
+.edit-form > input:hover {
+    border-color: hsla(0, 0%, 0%, 0.2);
+}
+
+.edit-form > input:focus {
+    outline: 0;
+    border-color: hsla(0, 0%, 0%, 0.4);
 }

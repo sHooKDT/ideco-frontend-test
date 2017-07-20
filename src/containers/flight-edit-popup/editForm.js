@@ -3,38 +3,24 @@ import { reduxForm } from 'redux-form';
 
 class FlightEditForm extends React.Component {
     render() {
-        const {fields : {flight_id, from_place, to_place, plane_model, planned_time, real_time, status}, handleSubmit} = this.props;
+        const {
+            fields : {flight_id, from_place, to_place, plane_model, planned_time, real_time, status},
+            handleSubmit,
+            resetForm
+        } = this.props;
         return (
             <form className="edit-form" onSubmit={ handleSubmit }>
-                <div>
-                    <label>Номер рейса</label>
-                    <input type="text" {...flight_id}/>
+                <input type="text" placeholder="Номер рейса" {...flight_id}/>
+                <input type="text" placeholder="Город отправления" {...from_place}/>
+                <input type="text" placeholder="Город прибытия" {...to_place}/>
+                <input type="text" placeholder="Самолёт" {...plane_model}/>
+                <input type="text" placeholder="Планируемое время" {...planned_time}/>
+                <input type="text" placeholder="Фактическое время" {...real_time}/>
+                <input type="text" placeholder="Статус" {...status}/>
+                <div className="edit-form-buttons">
+                    <button type="submit">Готово</button>
+                    <button type="button" onClick={ resetForm }>Сброс</button>
                 </div>
-                <div>
-                    <label>Город отправления</label>
-                    <input type="text" {...from_place}/>
-                </div>
-                <div>
-                    <label>Город прибытия</label>
-                    <input type="text" {...to_place}/>
-                </div>
-                <div>
-                    <label>Самолёт</label>
-                    <input type="text" {...plane_model}/>
-                </div>
-                <div>
-                    <label>Планируемое время</label>
-                    <input type="text" {...planned_time}/>
-                </div>
-                <div>
-                    <label>Фактическое время</label>
-                    <input type="text" {...real_time}/>
-                </div>
-                <div>
-                    <label>Статус</label>
-                    <input type="text" {...status}/>
-                </div>
-                <button type="submit">Submit</button>
             </form>
         )
     }

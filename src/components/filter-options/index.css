@@ -1,0 +1,18 @@
+.filters-form {
+
+}
+
+.filters-form > input {
+    outline: 0;
+    border-width: 0 0 2px 2px;
+    border-color: hsla(0,0%,0%,0.2);
+}
+
+.filters-form > input:focus {
+    outline: 0;
+    border-color: hsla(0,0%,0%,0.6);
+}
+
+.filters-form > input,button {
+    margin: 10px;
+}
