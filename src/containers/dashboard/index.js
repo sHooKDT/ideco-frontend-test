@@ -2,6 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FilterOptions from '../../components/filter-options/index'
 
+import './index.css';
+
+import edit_icon from './icons/edit.svg';
+import remove_icon from './icons/remove.svg';
+
 class Flight extends React.Component {
     render() {
         return (
@@ -13,14 +18,28 @@ class Flight extends React.Component {
                 <td>{this.props.data.planned_time}</td>
                 <td>{this.props.data.real_time}</td>
                 <td>{this.props.data.status}</td>
+                {
+                    this.props.editable &&
+                        <td>
+                            <img className="icon" onClick={ this.props.handlers.editHandler } src={ edit_icon } alt=""/>
+                            <img className="icon" onClick={ this.props.handlers.removeHandler } src={ remove_icon } alt=""/>
+                        </td>
+                }
             </tr>
         )
     }
 }
 
 class Dashboard extends React.Component {
+    makeEditHandlers(index) {
+        return {
+            editHandler: () => console.log(index),
+            removeHandler: () => console.log(index)
+        }
+    }
     render() {
-        const { flights, filters } = this.props;
+        const { flights, filters, edit } = this.props;
+        const { makeEditHandlers } = this;
 
         let filtered_flights;
         if (filters && filters.city) filtered_flights = flights.filter(flight => flight.from_place === filters.city);
@@ -28,14 +47,14 @@ class Dashboard extends React.Component {
 
         let flights_template = filtered_flights.map(function (item, index) {
             return (
-                <Flight key={index} data={item}/>
+                <Flight key={index} data={item} editable={edit} handlers={makeEditHandlers(index)} />
             )
         });
 
         return (
             <div>
-                <table>
-                    <thead>
+                <table className="dashboard-table">
+                    <thead className="dashboard-head">
                     <tr>
                         <th>Номер рейса</th>
                         <th>Город отправления</th>
@@ -44,6 +63,10 @@ class Dashboard extends React.Component {
                         <th>План. время</th>
                         <th>Факт. время</th>
                         <th>Статус</th>
+                        {
+                            edit &&
+                                <th>Действия</th>
+                        }
                     </tr>
                     </thead>
                     <tbody>
@@ -74,6 +97,7 @@ Flight.propTypes = {
 
 Dashboard.propTypes = {
     flights: PropTypes.arrayOf(Flight.propTypes.data).isRequired,
+    edit: PropTypes.bool,
     filters: PropTypes.object,
 };
 

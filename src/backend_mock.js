@@ -174,18 +174,18 @@ let dataStore = {
 
 mock.onGet('/all').reply(200, dataStore);
 
-let afterDel = {
-    ...dataStore
-};
-afterDel.departues.slice(0,5);
-afterDel.arrivals.slice(0,7);
-
-mock.onDelete(/\/all\/\S+/).reply(200, afterDel);
-
 export function getData() {
     return Axios.get('/all');
 }
 
-export function delData(id) {
-    return Axios.delete('/all' + id);
+export function rmFlight(direction, index) {
+    if (direction === 'arrivals' || direction === 'departures') {
+        dataStore[direction].splice(index, 1);
+    }
+}
+
+export function addFlight(direction, obj) {
+    if (direction === 'arrivals' || direction === 'departures') {
+        dataStore[direction].push(obj);
+    }
 }

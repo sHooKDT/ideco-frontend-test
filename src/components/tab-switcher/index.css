@@ -1,0 +1,36 @@
+.tabs-ul {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    list-style-type: none;
+}
+
+.tab-li {
+    float: left;
+}
+
+.tab-link {
+    text-align: center;
+    display: block;
+    padding: 1em;
+    color: black;
+    background-color: #B2EBF2;
+    text-decoration: none;
+}
+
+.tab-link:active {
+    background-color: #4DD0E1;
+}
+
+.tab-link:hover {
+    transition: all linear 0.2s;
+    color: white;
+    background-color: #006064;
+}
+
+.enable-edit {
+    display: block;
+    text-align: center;
+    padding: 1em;
+
+}

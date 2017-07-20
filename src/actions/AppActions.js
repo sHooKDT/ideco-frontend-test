@@ -11,3 +11,10 @@ export function setCityFilter(city) {
         payload: city
     }
 }
+
+export function setEditStatus(status) {
+    return {
+        type: 'ENABLE_EDIT',
+        payload: status
+    }
+}
