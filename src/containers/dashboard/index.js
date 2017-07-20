@@ -1,8 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FilterOptions from '../../components/filter-options/index'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
+import FilterOptions from '../../components/filter-options/';
+import * as appActions from '../../actions/AppActions';
 import './index.css';
+
+import { rmFlight, getData, addFlight } from '../../backend_mock';
 
 import edit_icon from './icons/edit.svg';
 import remove_icon from './icons/remove.svg';
@@ -31,23 +36,46 @@ class Flight extends React.Component {
 }
 
 class Dashboard extends React.Component {
+    constructor() {
+        super();
+        this.makeEditHandlers = this.makeEditHandlers.bind(this);
+        this.addFlight = this.addFlight.bind(this);
+    }
     makeEditHandlers(index) {
         return {
-            editHandler: () => console.log(index),
-            removeHandler: () => console.log(index)
+            editHandler: () => {
+                this.props.appActions.startEdit(this.props.direction, index);
+            },
+            removeHandler: () => {
+                rmFlight(this.props.direction, index);
+                getData().then(data => {
+                    this.props.appActions.updateData(data.data)
+                });
+            }
         }
     }
+    addFlight() {
+        let ind = addFlight(this.props.direction);
+        this.props.appActions.startEdit(this.props.direction, ind);
+    }
     render() {
-        const { flights, filters, edit } = this.props;
+        const { arrivals, departures, filters, editEnabled} = this.props;
         const { makeEditHandlers } = this;
 
+        let flights = this.props.direction === 'arrivals' ? arrivals : departures;
+
         let filtered_flights;
-        if (filters && filters.city) filtered_flights = flights.filter(flight => flight.from_place === filters.city);
+        if (filters) {
+            filtered_flights = flights.filter(flight => {
+                if (filters.from_place) return filters.from_place === flight.from_place;
+                return true;
+            })
+        }
         else filtered_flights = flights;
 
         let flights_template = filtered_flights.map(function (item, index) {
             return (
-                <Flight key={index} data={item} editable={edit} handlers={makeEditHandlers(index)} />
+                <Flight key={index} data={item} editable={editEnabled} handlers={makeEditHandlers(index)} />
             )
         });
 
@@ -64,7 +92,7 @@ class Dashboard extends React.Component {
                         <th>Факт. время</th>
                         <th>Статус</th>
                         {
-                            edit &&
+                            editEnabled &&
                                 <th>Действия</th>
                         }
                     </tr>
@@ -76,7 +104,11 @@ class Dashboard extends React.Component {
                 <p>Всего рейсов: { flights.length }</p>
                 <p>Подходящих рейсов: { filtered_flights.length }</p>
                 <br />
-                <FilterOptions onSubmit={ this.props.handle } />
+                {
+                    editEnabled &&
+                    <input type="button" onClick={ this.addFlight } value="Добавить рейс" />
+                }
+                <FilterOptions onSubmit={ this.props.appActions.setFilters } initialValues={ filters } />
             </div>
         );
     };
@@ -92,13 +124,31 @@ Flight.propTypes = {
         "planned_time": PropTypes.string.isRequired,
         "real_time": PropTypes.string.isRequired,
         "status": PropTypes.string.isRequired
+    }),
+    editable: PropTypes.bool.isRequired,
+    handlers: PropTypes.shape({
+        editHandler: PropTypes.func.isRequired,
+        removeHandler: PropTypes.func.isRequired
     })
 };
 
 Dashboard.propTypes = {
-    flights: PropTypes.arrayOf(Flight.propTypes.data).isRequired,
-    edit: PropTypes.bool,
-    filters: PropTypes.object,
+    direction: PropTypes.string.isRequired
 };
 
-export default Dashboard;
+function mapStateToProps (state) {
+    return {
+        departures: state.app.departures,
+        arrivals: state.app.arrivals,
+        filters: state.app.filters,
+        editEnabled: state.app.editEnabled,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        appActions: bindActionCreators(appActions, dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

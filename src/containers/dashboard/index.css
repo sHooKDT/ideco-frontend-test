@@ -8,6 +8,7 @@ table {
 td, th {
     padding: 0.4em;
     border-bottom: 1px solid #ddd;
+    text-align: left;
 }
 
 th {
@@ -20,8 +21,9 @@ tr:hover {
 }
 
 .icon {
-    width: 1.5em;
-    height: 1.5em;
+    float: left;
+    width: 1em;
+    height: 1em;
     padding: 0 0.3em;
 }
 .icon:hover {

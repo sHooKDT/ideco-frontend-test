@@ -5,10 +5,10 @@ export function updateData(data) {
     }
 }
 
-export function setCityFilter(city) {
+export function setFilters(newfilters) {
     return {
-        type: 'SET_CITY_FILTER',
-        payload: city
+        type: 'SET_FILTERS',
+        payload: newfilters
     }
 }
 
@@ -16,5 +16,21 @@ export function setEditStatus(status) {
     return {
         type: 'ENABLE_EDIT',
         payload: status
+    }
+}
+
+export function startEdit(direction, index) {
+    return {
+        type: 'START_EDIT',
+        payload: {
+            'direction': direction,
+            'index': index
+        }
+    }
+}
+
+export function endEdit() {
+    return {
+        type: 'END_EDIT'
     }
 }

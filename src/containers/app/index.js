@@ -6,6 +6,7 @@ import './index.css';
 
 import Dashboard from '../dashboard';
 import TabSwitcher from '../../components/tab-switcher';
+import FlightEditPopup from '../flight-edit-popup/';
 
 import { getData } from '../../backend_mock';
 import * as appActions from '../../actions/AppActions'
@@ -20,20 +21,20 @@ class App extends Component {
             this.props.appActions.updateData(data.data)
         });
     }
-    handleEditModeStatus(e) {
-        this.props.appActions.setEditStatus(e.target.checked);
+    handleEditModeStatus(event) {
+        this.props.appActions.setEditStatus(event.target.checked);
     }
-    handle
   render() {
-      const { departures, arrivals, filters, editEnabled } = this.props;
     return (
         <Router>
         <div>
             <TabSwitcher edit_cb_handler={ this.handleEditModeStatus } />
+            {/* Shows if edit mode enables */}
+            <FlightEditPopup />
             <Route path={ TAB_IDS.TAB_ARRIVALS } component={ () =>
-                <Dashboard flights={ arrivals } filters={ filters } edit={ editEnabled } />} />
+                <Dashboard direction="arrivals" />} />
             <Route path={ TAB_IDS.TAB_DEPARTURES } component={ () =>
-                <Dashboard flights={ departures } filters={ filters } edit={ editEnabled } /> } />
+                <Dashboard direction="departures" /> } />
         </div>
         </Router>
     );
@@ -42,10 +43,6 @@ class App extends Component {
 
 function mapStateToProps (state) {
     return {
-        departures: state.app.departures,
-        arrivals: state.app.arrivals,
-        filters: state.form.filters,
-        editEnabled: state.app.editEnabled
     }
 }
 

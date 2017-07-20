@@ -14,8 +14,8 @@ class TabSwitcher extends React.Component {
     render() {
         return (
             <ul className="tabs-ul">
-                <Tab tabid={tabs.TAB_ARRIVALS} tabname='Arrivals'/>
-                <Tab tabid={tabs.TAB_DEPARTURES} tabname='Departures'/>
+                <Tab tabid={tabs.TAB_ARRIVALS} tabname='Прилёт'/>
+                <Tab tabid={tabs.TAB_DEPARTURES} tabname='Вылет'/>
                 <li className="tab-li">
                     <label className="enable-edit">Включить редактирование <input type="checkbox" onChange={ this.props.edit_cb_handler } /></label>
                 </li>

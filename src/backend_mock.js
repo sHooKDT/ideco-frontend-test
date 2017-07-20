@@ -184,8 +184,12 @@ export function rmFlight(direction, index) {
     }
 }
 
-export function addFlight(direction, obj) {
+export function editFlight(direction, index, data) {
+    dataStore[direction][index] = data;
+}
+
+export function addFlight(direction) {
     if (direction === 'arrivals' || direction === 'departures') {
-        dataStore[direction].push(obj);
+        return dataStore[direction].push({}) - 1;
     }
 }
